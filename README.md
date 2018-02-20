@@ -7,15 +7,24 @@ to install on ubuntu ```apt-get install libzip-dev``` on mac ```brew install lib
 #### For OpenCV 3 Users
 Please see the [opencv-3.1](https://github.com/yjxiong/dense_flow/tree/opencv-3.1) branch. Many thanks to @victorhcm for the contributions!
 
-### Install
+### Install for NYU HPC
 ```
-git clone --recursive http://github.com/yjxiong/dense_flow
+
+module purge
+module load boost/intel/1.62.0
+module load cmake/intel/3.7.1
+module load opencv/intel/2.4.13.2
+module load libzip/intel/1.4.0
+export PATH=$PATH:/share/apps/libzip/1.4.0/intel/lib:
+git clone --recursive http://github.com/yjxiong/dense_flow && cd dense_flow
 mkdir build && cd build
-cmake .. && make -j
+cmake -D CUDA_USE_STATIC_CUDA_RUNTIME=OFF ..
+make -j
 ```
 
 ### Usage
 ```
+mkdir tmp
 ./extract_gpu -f test.avi -x tmp/flow_x -y tmp/flow_y -i tmp/image -b 20 -t 1 -d 0 -s 1 -o dir
 ```
 - `test.avi`: input video
